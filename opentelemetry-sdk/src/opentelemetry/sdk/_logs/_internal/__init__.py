@@ -668,7 +668,8 @@ class LoggingHandler(logging.Handler):
 
         if self._is_emitting.get():
             _internal_logger.warning(
-                "LoggingHandler.emit detected recursive logging, skipping to prevent deadlock."
+                "LoggingHandler.emit detected recursive logging for record [%s:%s], skipping.",
+                record.name, record.getMessage()
             )
             return
         token = self._is_emitting.set(True)
