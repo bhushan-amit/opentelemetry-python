@@ -580,7 +580,8 @@ class LoggingHandler(logging.Handler):
     @staticmethod
     def _get_attributes(record: logging.LogRecord) -> _ExtendedAttributes:
         attributes = {
-            k: v for k, v in vars(record).items() if k not in _RESERVED_ATTRS
+            k: v for k, v in vars(record).items()
+            if k not in _RESERVED_ATTRS and isinstance(v, _VALID_ANY_VALUE_TYPES)
         }
 
         # Add standard code attributes for logs.
