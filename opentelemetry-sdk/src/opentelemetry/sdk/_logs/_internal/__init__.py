@@ -669,8 +669,18 @@ class LoggingHandler(logging.Handler):
 
         if self._is_emitting.get():
             _internal_logger.warning(
-                "LoggingHandler.emit detected recursive logging for record [%s:%s], skipping.",
-                record.name, record.getMessage()
+                "LoggingHandler.emit detected recursive logging, skipping.\n"
+                "  Record  : [%s] %s: %s\n"
+                "  Source  : %s:%s\n"
+                "  Thread  : %s\n"
+                "  Stack   :\n%s",
+                record.levelname,
+                record.name,
+                record.getMessage(),
+                record.pathname,
+                record.lineno,
+                record.threadName,
+                "".join(traceback.format_stack()),
             )
             return
         token = self._is_emitting.set(True)
